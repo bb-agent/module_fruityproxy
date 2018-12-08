@@ -109,14 +109,14 @@ $tab_name = $_GET["tab"];
 // DELETE LOG
 if ($logfile != "" and $action == "delete") {
     $exec = "$bin_rm ".$mod_logs_history.$logfile.".log";
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 }
 
 // SET MODE
 if ($_POST["change_mode"] == "1") {
     $us_mode = $proxy;
     $exec = "/bin/sed -i 's/us_mode.*/us_mode = \\\"".$us_mode."\\\";/g' includes/options_config.php";
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 }
 
 include "includes/options_config.php";
@@ -217,13 +217,13 @@ Loading, please wait...
             
             if ($mod_sslstrip_filter == "LogEx.py") {
                 $exec = "$bin_python $mod_path/includes/filters/LogEx.py $filename";
-                $output = exec_fruitywifi($exec);
+                $output = exec_blackbulb($exec);
                 
                 //$data = implode("\n",$output);
                 $data = $output;
             } else if ($mod_sslstrip_filter == "ParseLog.py") {
                 $exec = "$bin_python $mod_path/includes/filters/ParseLog.py $filename $mod_path/includes/filters";
-                $output = exec_fruitywifi($exec);
+                $output = exec_blackbulb($exec);
                         
                 //$data = implode("\n",$output);
                 $data = $output;
@@ -511,7 +511,7 @@ Loading, please wait...
                             echo "<div style='display:inline-block; width:10px; text-align:left; padding-left:4px;'>installed</div>";
                         } else {
                             if (str_replace("v","",$version) < $xml->plugin[$i]->required ) {
-                                echo "<div style='display:inline-block; width:10px; text-align:left; padding-left:4px;'><a href='#' onclick='alert(\"FruityWifi v".$xml->plugin[$i]->required." is required\")'>install</a></div>";
+                                echo "<div style='display:inline-block; width:10px; text-align:left; padding-left:4px;'><a href='#' onclick='alert(\"BlackBulb v".$xml->plugin[$i]->required." is required\")'>install</a></div>";
                             } else {
                                 echo "<div style='display:inline-block; width:10px; text-align:left; padding-left:4px;'><a href='javascript:void(0)' onclick=\"openDialog('download','".$xml->plugin[$i]->name."','".$xml->plugin[$i]->version."');\">install</a></div>";
                                 //echo "<div style='display:inline-block; width:10px; text-align:left; padding-left:4px;'><a href='includes/module_action.php?action=download&plugin=".$xml->plugin[$i]->name."'>install</a></div>";

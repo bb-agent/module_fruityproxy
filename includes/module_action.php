@@ -45,75 +45,75 @@ if($service != "") {
     if ($action == "start") {
         // COPY LOG
 		$exec = "$bin_mv $mod_logs $mod_logs_history/".gmdate("Ymd-H-i-s").".log";
-		exec_fruitywifi($exec);
+		exec_blackbulb($exec);
         
 		if ($us_mode == "-") {
 		
 			$exec = "$bin_iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080";
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 			
 			//$exec = "$bin_iptables -t nat -A PREROUTING -p tcp --destination-port 443 -j REDIRECT --to-port 10000";
-			//exec_fruitywifi($exec);
+			//exec_blackbulb($exec);
 			
 			//$exec = "$bin_iptables -t nat -A PREROUTING -p tcp --destination-port 53 -j REDIRECT --to-port 5300";
-			//exec_fruitywifi($exec);	
+			//exec_blackbulb($exec);
 			
 			$exec = "./fruityproxy.sh > /dev/null &";
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 			
 		} else {
 			
 			if ($us_mode == "sslstrip2") {
-				$exec = "/usr/share/fruitywifi/www/modules/sslstrip2/includes/sslstrip -a -s -l 10000 > /dev/null 2 &";;
+				$exec = "/usr/share/blackbulb/www/modules/sslstrip2/includes/sslstrip -a -s -l 10000 > /dev/null 2 &";;
 			} else if ($us_mode == "sslstrip") {
-				$exec = "/usr/share/fruitywifi/www/modules/sslstrip/includes/sslstrip -a -s -l 10000 > /dev/null 2 &";;
+				$exec = "/usr/share/blackbulb/www/modules/sslstrip/includes/sslstrip -a -s -l 10000 > /dev/null 2 &";;
 			} else if ($us_mode == "mitmf") {
-				$exec = "cd /usr/share/fruitywifi/www/modules/mitmf/includes/; ./mitmf $io_action > /dev/null &";
+				$exec = "cd /usr/share/blackbulb/www/modules/mitmf/includes/; ./mitmf $io_action > /dev/null &";
 			}
 			
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 			
 			$exec = "$bin_iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080";
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 			
 			$exec = "./fruityproxy.sh -s $us_server -p $us_port > /dev/null &";
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 			
 		}
 		
         
 		$exec = "./fruityproxy.sh > /dev/null &";
-		exec_fruitywifi($exec);
+		exec_blackbulb($exec);
 		
 		$wait = 2;
 	
     } else if($action == "stop") {
     	$exec = "$bin_iptables -t nat -D PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080";
-		exec_fruitywifi($exec);
+		exec_blackbulb($exec);
 		
 		//$exec = "$bin_iptables -t nat -D PREROUTING -p tcp --destination-port 443 -j REDIRECT --to-port 10000";
-		//exec_fruitywifi($exec);
+		//exec_blackbulb($exec);
 		
 		//$exec = "$bin_iptables -t nat -D PREROUTING -p tcp --destination-port 53 -j REDIRECT --to-port 5300";
-		//exec_fruitywifi($exec);
+		//exec_blackbulb($exec);
 		
 		
 		
 		if ($us_mode == "sslstrip2") {
-			$exec = "ps aux|grep -E 'fruitywifi.+sslstrip2.+sslstrip' | grep -v grep | awk '{print $2}'";
+			$exec = "ps aux|grep -E 'blackbulb.+sslstrip2.+sslstrip' | grep -v grep | awk '{print $2}'";
 			exec($exec,$output);
 			$exec = "kill " . $output[0];
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 		} else if ($us_mode == "sslstrip") {
-			$exec = "ps aux|grep -E 'fruitywifi.+sslstrip.+sslstrip' | grep -v grep | awk '{print $2}'";
+			$exec = "ps aux|grep -E 'blackbulb.+sslstrip.+sslstrip' | grep -v grep | awk '{print $2}'";
 			exec($exec,$output);
 			$exec = "kill " . $output[0];
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 		} else if ($us_mode == "mitmf") {
 			$exec = "ps aux|grep -E 'python mitmf.py' | grep -v grep | awk '{print $2}'";
 			exec($exec,$output);
 			$exec = "kill " . $output[0];
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 		}
 		
 		unset($output);
@@ -122,7 +122,7 @@ if($service != "") {
 		exec($exec,$output);
 		
 		$exec = "kill " . $output[0];
-		exec_fruitywifi($exec);
+		exec_blackbulb($exec);
     }
 }
 
@@ -167,7 +167,7 @@ if ($upload == "upload") {
 		if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 			echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 			$exec = "mv $target_file $target_dir_final";
-			exec_fruitywifi($exec);
+			exec_blackbulb($exec);
 		} else {
 			echo "Sorry, there was an error uploading your file.";
 		}
@@ -178,19 +178,19 @@ if ($upload == "upload") {
 }
 
 if ($action == "download") {
-    $exec = "git clone https://github.com/xtr4nge/module_$module.git /usr/share/fruitywifi/www/modules/$module";
-    //exec_fruitywifi($exec);
+    $exec = "git clone https://github.com/xtr4nge/module_$module.git /usr/share/blackbulb/www/modules/$module";
+    //exec_blackbulb($exec);
 
-    //$exec = "wget https://github.com/xtr4nge/module_$module/archive/v$version.zip -O /usr/share/fruitywifi/www/modules/module_$module-$version.zip";
+    //$exec = "wget https://github.com/xtr4nge/module_$module/archive/v$version.zip -O /usr/share/blackbulb/www/modules/module_$module-$version.zip";
     $exec = "wget https://raw.githubusercontent.com/xtr4nge/FruityProxy/master/plugins/$plugin.py -O /tmp/$plugin.py";
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 	/*
-    $exec = "unzip /usr/share/fruitywifi/www/modules/module_$module-$version.zip -d /usr/share/fruitywifi/www/modules/";
-    exec_fruitywifi($exec);
-    $exec = "rm /usr/share/fruitywifi/www/modules/module_$module-$version.zip";
-    exec_fruitywifi($exec);
-    $exec = "mv /usr/share/fruitywifi/www/modules/module_$module-$version /usr/share/fruitywifi/www/modules/$module";
-    exec_fruitywifi($exec);
+    $exec = "unzip /usr/share/blackbulb/www/modules/module_$module-$version.zip -d /usr/share/blackbulb/www/modules/";
+    exec_blackbulb($exec);
+    $exec = "rm /usr/share/blackbulb/www/modules/module_$module-$version.zip";
+    exec_blackbulb($exec);
+    $exec = "mv /usr/share/blackbulb/www/modules/module_$module-$version /usr/share/blackbulb/www/modules/$module";
+    exec_blackbulb($exec);
     */
     
 	$output[0] = "plugin-installed";
@@ -201,10 +201,10 @@ if ($action == "download") {
 if ($install == "install_$mod_name") {
 
     $exec = "chmod 755 install.sh";
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 
     $exec = "$bin_sudo ./install.sh > $log_path/install.txt &";
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
     
     header('Location: ../../install.php?module='.$mod_name);
     exit;

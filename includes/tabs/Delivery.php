@@ -28,14 +28,14 @@ $files_path = "includes/FruityProxy-master/content/Delivery/";
 
 if (!file_exists($files_path)) {
 	$exec = "mkdir -p $files_path";
-	exec_fruitywifi($exec);
+	exec_blackbulb($exec);
 }
 
 
 $files = glob($files_path.'*');
 
 //$exec = "ls " . $files_path;
-//$files = exec_fruitywifi($exec);
+//$files = exec_blackbulb($exec);
 //echo $files;
 
 for ($i = 0; $i < count($files); $i++) {
