@@ -1,7 +1,7 @@
 module_fruityproxy
 ===============
 
-FruityWiFi fruityproxy module.
+BlackBlulb fruityproxy module.
 
 
 v1.4
